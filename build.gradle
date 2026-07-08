@@ -1,9 +1,15 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.3.21'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
+
+def isSnapshot() {
+    return version.endsWith('SNAPSHOT')
+}
 
 repositories {
     mavenCentral()
@@ -15,6 +21,59 @@ dependencies {
 
 kotlin {
     jvmToolchain(23)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = group
+            artifactId = 'page-lib'
+            version = version
+
+            pom {
+                name = 'Page Lib'
+                description = 'A simple Kotlin library with a printHelloWorld function'
+                url = 'https://github.com/example/page-lib'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'example'
+                        name = 'Example'
+                        email = 'example@example.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/example/page-lib.git'
+                    developerConnection = 'scm:git:ssh://github.com/example/page-lib.git'
+                    url = 'https://github.com/example/page-lib'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = isSnapshot()
+                ? 'https://github.com/example/page-lib/raw/master/repo/snapshots'
+                : 'https://github.com/example/page-lib/raw/master/repo/releases'
+            credentials {
+                username = System.getenv('USERNAME') ?: 'example'
+                password = System.getenv('TOKEN') ?: ''
+            }
+        }
+    }
+}
+
+if (!isSnapshot()) {
+    signing {
+        sign publishing.publications.mavenJava
+    }
 }
 
 test {
