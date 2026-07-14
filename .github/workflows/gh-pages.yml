@@ -1,4 +1,4 @@
-name: Publish Library to GitHub Pages
+name: Publish Library to GitHub Pages 
 
 on:
   push:
