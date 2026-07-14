@@ -39,6 +39,7 @@ repositories { mavenLocal() }
 dependencies { implementation("org.example:page-lib:1.0-SNAPSHOT") }
 ```
 
+
 ## Consume from GitHub Pages
 ```gradle
 repositories {
