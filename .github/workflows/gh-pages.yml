@@ -40,12 +40,12 @@ jobs:
           cp build/libs/*.jar repo/releases/ || true
           cp build/libs/*.pom repo/releases/ || true
           echo '<?xml version="1.0" encoding="UTF-8"?>
-<metadata>
-  <groupId>org.example</groupId>
-  <artifactId>page-lib</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <type>pom</type>
-</metadata>' > repo/releases/maven-metadata.xml
+          <metadata>
+            <groupId>org.example</groupId>
+            <artifactId>page-lib</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>pom</type>
+          </metadata>' > repo/releases/maven-metadata.xml
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v4
